@@ -1,0 +1,42 @@
+// NAVBAR
+.php-navbar {
+    background-color: #8892BF;
+}
+.php-navbar .navbar-brand,
+.php-navbar .nav-link {
+    color: #FFF;
+}
+.php-navbar .navbar-toggler {
+    filter: brightness(0.9);
+}
+.php-navbar .btn-dark {
+    background-color: #4F4F4F;
+}
+// FOOTER
+.php-footer {
+    background-color: #8892BF;
+    padding: 20px 0;
+    color: #FFF;
+}
+.php-footer a {
+    color: #FFF;
+    text-decoration: none;
+}
+.php-footer a:hover {
+    text-decoration: underline;
+}
+.php-footer .footer-logo {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+.php-footer .social-icons {
+    list-style-type: none;
+    padding: 0;
+}
+.php-footer .social-icons li {
+    display: inline-block;
+    margin-right: 10px;
+}
+.php-footer .social-icons li:last-child {
+    margin-right: 0;
+}
