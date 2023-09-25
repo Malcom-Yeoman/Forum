@@ -18,6 +18,7 @@ class Order03QuestionFixture extends Fixture
             $question->setTitle($faker->sentence);
             $question->setContent($faker->paragraph);
             $question->setDatePosted($faker->dateTimeThisYear);
+            $question->setIsAnswered($faker->boolean);
             $question->setCategory($this->getReference('category_' . rand(0, 2)));
             $question->setUser($this->getReference('user_' . rand(0, 9)));
 

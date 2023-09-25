@@ -35,6 +35,9 @@ class Question
     #[ORM\ManyToOne(inversedBy: 'questions')]
     private ?User $user = null;
 
+    #[ORM\Column]
+    private ?bool $isAnswered = null;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
@@ -131,6 +134,18 @@ class Question
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function isIsAnswered(): ?bool
+    {
+        return $this->isAnswered;
+    }
+
+    public function setIsAnswered(bool $isAnswered): static
+    {
+        $this->isAnswered = $isAnswered;
 
         return $this;
     }
