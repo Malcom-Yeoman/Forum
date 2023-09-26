@@ -4,4 +4,34 @@
 
 {% block body %}
 
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <h2>Categories</h2>
+            <form method="post" action="{{ path('app_default') }}">
+                {{ form_start(filter_form) }}
+                {{ form_widget(filter_form.category) }}
+                <button type="submit" class="btn btn-dark mt-2">Filtrer</button>
+                {{ form_end(filter_form) }}
+            </form>
+        </div>
+        <div class="col-md-8">
+            <h2>Questions</h2>
+            {% for question in pagination %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ question.title }}</h5>
+                        <p class="card-text">{{ question.content }}</p>
+                        <p><strong>Category:</strong> {{ question.category ? question.category.name : 'N/A' }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="pagination">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
+
