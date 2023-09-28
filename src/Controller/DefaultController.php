@@ -53,7 +53,11 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route('/question/{id}', name: 'app_question_view')]
+    #[Route(
+        path: '/question/{id}', 
+        name: 'app_question_view', 
+        requirements: ["id" => "\d+"]
+    )]    
     public function viewQuestion(int $id, QuestionRepository $questionRepo, Request $request, EntityManagerInterface $entityManager): Response
     {
         $question = $questionRepo->find($id);
