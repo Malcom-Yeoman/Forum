@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Answer;
 use App\Form\QuestionFilterType;
+use App\Form\AnswerType;
 use App\Repository\CategoryRepository;
 use App\Repository\QuestionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,6 +50,38 @@ class DefaultController extends AbstractController
             'pagination' => $pagination,
             'categories' => $categories,
             'filter_form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/question/{id}', name: 'app_question_view')]
+    public function viewQuestion(int $id, QuestionRepository $questionRepo, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $question = $questionRepo->find($id);
+
+        if (!$question) {
+            throw $this->createNotFoundException('La question demandée n\'existe pas.');
+        }
+
+        $answer = new Answer();
+        $form = $this->createForm(AnswerType::class, $answer);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $answer->setQuestion($question);
+            $answer->setUser($this->getUser());
+            $answer->setDatePosted(new \DateTime());
+
+            $entityManager->persist($answer);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre réponse a été ajoutée avec succès !');
+
+            return $this->redirectToRoute('app_question_view', ['id' => $question->getId()]);
+        }
+
+        return $this->render('default/question.html.twig', [
+            'question' => $question,
+            'form' => $form->createView()
         ]);
     }
 }

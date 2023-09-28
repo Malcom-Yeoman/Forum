@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="border p-4 mb-4 shadow-sm">
+            <h2 class="mb-3">{{ question.title }}</h2>
+            <p>{{ question.content }}</p>
+        </div>
+
+        <h3 class="mb-3">Réponses</h3>
+        {% if question.answers|length > 0 %}
+            <ul class="list-group">
+                {% for answer in question.answers %}
+                    <li class="list-group-item shadow-sm mb-2">
+                        <p class="mb-1">
+                            <strong>{{ answer.user.pseudo }}:</strong> {{ answer.content }}
+                        </p>
+                        <small class="text-muted">{{ answer.datePosted|date('d-m-Y H:i') }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="alert alert-info">Pas de réponses pour l'instant.</div>
+        {% endif %}
+        <div class="mt-4">
+            {{ form_start(form) }}
+            {{ form_row(form.content) }}
+            {{ form_row(form.submit) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
