@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Answer;
+use App\Entity\Question;
 use App\Form\QuestionFilterType;
 use App\Form\AnswerType;
 use App\Repository\CategoryRepository;
@@ -87,5 +88,25 @@ class DefaultController extends AbstractController
             'question' => $question,
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/question/{id}/mark-answered', name: 'app_question_mark_answered')]
+    public function markAsAnswered(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $question = $entityManager->getRepository(Question::class)->find($id);
+    
+        if (!$question) {
+            throw $this->createNotFoundException('La question demandée n\'existe pas.');
+        }
+    
+        // Vérifier si l'utilisateur actuellement connecté est le créateur de la question
+        if ($this->getUser() !== $question->getUser()) {
+            throw $this->createAccessDeniedException('Vous n\'êtes pas autorisé à marquer cette question comme répondue.');
+        }
+    
+        $question->setIsAnswered(true);
+        $entityManager->flush();
+    
+        return $this->redirectToRoute('app_question_view', ['id' => $question->getId()]);
     }
 }

@@ -22,6 +22,11 @@
                     <div class="card-body">
                         <h5 class="card-title">
                             <a href="{{ path('app_question_view', {'id': question.id}) }}">{{ question.title }}</a>
+                            {% if question.isIsAnswered %}
+                                <span class="badge bg-success">Répondue</span>
+                            {% else %}
+                                <span class="badge bg-warning">En attente de réponse</span>
+                            {% endif %}
                         </h5>
                         <p class="card-text">{{ question.content }}</p>
                         <p><strong>Category:</strong> {{ question.category ? question.category.name : 'N/A' }}</p>
